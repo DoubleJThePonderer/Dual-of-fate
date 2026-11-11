@@ -23,3 +23,8 @@ class Actions():
     def __init__(self, value, cooldown):
         self.val = value
         self.cd = cooldown
+        
+        
+entity1 = Entity(["Attack", "Defend"], 100)
+player1 = Player(["Run", "Jump", "Heal"], 150)
+
