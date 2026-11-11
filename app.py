@@ -1,4 +1,4 @@
-import random
+import random #vi bruker random for fiendene sin "ai"
 
 class Entity:
     def __init__(self):
