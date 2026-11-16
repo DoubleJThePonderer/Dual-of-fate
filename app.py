@@ -26,9 +26,9 @@ class Actions():
         self.target = target
     def __str__(self):
         if self.val > 0:
-            print(f"gjør {self.val} dmg")
+            return f"gjør {self.val} dmg"
         elif self.val < 0:
-            print(f"hebreder deg for {self.val*-1}")
+            return f"hebreder deg for {self.val*-1}"
     
     def activate(self):
         self.target.hp -= self.val # skade/heal gøres her
@@ -46,6 +46,12 @@ enyK = Actions(20, 0, player1)
 # legger alle actions i entities
 player1.actions.extend([playA,playK,playH])
 entity1.actions.extend([enyA,enyK])
+# ordbøker til å bruke angrep
+player1.actions = {
+    "angrip": playA,
+    "spark": playK,
+    "heal": playH
+}
 
 while player1.hp > 0:
     print("")
@@ -53,10 +59,16 @@ while player1.hp > 0:
         print(f"du har {player1.hp} liv")
         action = (input(f"What action do you want to use. {player1.actions}"))
         if action in player1.actions:
-            player1.action.activate()
+            player1.actions[action].activate()
             print(f"fienden har {entity1.hp} liv")
-            a = random.randint(1,2)
+            a = random.randint(0,1)
             entity1.actions[a].activate()
             print("fienden slo tilbake og du tokk skade")
             player1.regen()
             print("du healer etter at han slo deg")
+        else:
+            print("noe er feil")
+        if entity1.hp < 0:
+            print("du slo fienden")
+    print()
+    print()
