@@ -1,4 +1,5 @@
 import random #vi bruker random for fiendene sin "ai"
+import time # vi bruker time for å skape litt mer action
 
 class Entity:
     def __init__(self, actions:list, hp:int):
@@ -15,9 +16,11 @@ class Player(Entity):
 class Boss(Entity):
     def __init__(self, actions, hp):
         super().__init__(actions, hp)
+        self.sliten = 1
     
-    def xFactor():
-        pass
+    def xFactor(self):
+        player1.hp -= self.sliten
+        self.sliten += 1
 
 class Actions():
     def __init__(self, value:int, cooldown:int, target:object):
@@ -47,9 +50,11 @@ playA = Actions(10, 0, entity1 or boss)
 playK = Actions(20,2, entity1 or boss)
 enyA = Actions(10, 0, player1)
 enyK = Actions(20, 0, player1)
+bosA = Actions(30, 0, player1)
 # legger alle actions i entities
 player1.actions.extend([playA,playK,playH])
 entity1.actions.extend([enyA,enyK])
+boss.actions.extend([enyK, bosA])
 # ordbøker til å bruke angrep
 player1.actions = {
     "angrip": playA,
@@ -58,39 +63,46 @@ player1.actions = {
 }
 
 while player1.hp > 0:
-    print("")
+    print("Du går ut av døra men plutselig")
+    time.sleep(2)
+    print("en fiende kommer med en kiv å skal drepe deg")
     while entity1.hp > 0:
         print(f"du har {player1.hp} liv")
-        action = (input(f"What action do you want to use. {player1.actions}"))
+        action = (input(f"hva velger du å gjøre. {player1.actions}"))
         if action in player1.actions:
             player1.actions[action].activate()
             print(f"fienden har {entity1.hp} liv")
             a = random.randint(0,1)
             entity1.actions[a].activate()
-            print(f"Han slo tilbake og du tokk skade {entity1.actions[a].val()}")
+            print(f"Han slo tilbake og du tokk skade")
             print(f"du healer {75 - player1.hp // 2} etter at han slo deg")
             player1.regen()
         else:
-            print("noe er feil")
-        if entity1.hp < 0:
+            print("noe er feil") # feil søking kode. gjir bedsjed om at noe gikk feil i koden.
+        if entity1.hp <= 0:
             print(f"du slo fienden og fikk {100 + player1.hp} poeng")
-            player1.points += 100 + player1.hp
-    print()
-    print()
+            player1.points += 100 + player1.hp #du får mer poeng jo mer hp du slutter fighten med
+    time.sleep(3)
+    print("Etter kampen er du sliten, solen har gått ned.")
+    time.sleep(2)
+    print("over deg hører du. DU SKAL DØ NÅ")
+    time.sleep(3)
+    print("Sjefen har kommet til å gjøre jobben selv")
     while boss.hp > 0:
         print(f"du har {player1.hp} liv")
         action = (input(f"What action do you want to use. {player1.actions}"))
         if action in player1.actions:
             player1.actions[action].activate()
             print(f"Bossen har {boss.hp} liv")
-            a = random.randint(0,)
+            a = random.randint(0,1)
             boss.actions[a].activate()
-            print(f"Han slo tilbake og du tokk skade {boss.actions[a].val()}")
+            print("Han slo tilbake og du tokk skade")
             print(f"du healer {75 - player1.hp // 2} etter at han slo deg")
             player1.regen()
-            boss.xFactor
+            print(f"du er sliten og tar {boss.sliten} skade")
+            boss.xFactor()
         if boss.hp < 0:
             print(f"du slo bossen og fikk {200 + player1.hp} poeng")
             player1.points += 200 + player1.hp
             player1.hp = 0
-print(f"spill over du fikk {player1.points} poeng")
+print(f"spill over. Du fikk {player1.points} poeng")
