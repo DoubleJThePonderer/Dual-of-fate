@@ -46,8 +46,8 @@ entity1 = Entity([], 100)
 player1 = Player([], 150)
 # alle actions
 playH = Actions(-50, 5, player1)
-playA = Actions(10, 0, entity1 or boss)
-playK = Actions(20,2, entity1 or boss)
+playA = Actions(10, 0, entity1)
+playK = Actions(20,2, entity1)
 enyA = Actions(10, 0, player1)
 enyK = Actions(20, 0, player1)
 bosA = Actions(30, 0, player1)
@@ -82,6 +82,8 @@ while player1.hp > 0:
         if entity1.hp <= 0:
             print(f"du slo fienden og fikk {100 + player1.hp} poeng")
             player1.points += 100 + player1.hp #du får mer poeng jo mer hp du slutter fighten med
+            playK.target = boss
+            playA.target = boss
     time.sleep(3)
     print("Etter kampen er du sliten, solen har gått ned.")
     time.sleep(2)
@@ -101,7 +103,7 @@ while player1.hp > 0:
             player1.regen()
             print(f"du er sliten og tar {boss.sliten} skade")
             boss.xFactor()
-        if boss.hp < 0:
+        if boss.hp <= 0:
             print(f"du slo bossen og fikk {200 + player1.hp} poeng")
             player1.points += 200 + player1.hp
             player1.hp = 0
